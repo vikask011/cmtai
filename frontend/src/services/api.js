@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:5000";
+const API_BASE_URL = "https://cmtai-three.vercel.app";
 
 // Get all articles
 export const getArticles = async () => {
