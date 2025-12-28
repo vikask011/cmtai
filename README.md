@@ -8,6 +8,8 @@ BeyondChats demonstrates a production-style workflow for:
 - integrating search + large language models to enrich content
 - a modern React + Tailwind frontend for visualization
 
+Live Demo (deployed): https://cmtai-387r.vercel.app/
+
 ---
 
 ## 🚀 Features
@@ -143,6 +145,8 @@ npm run dev
 ```
 Frontend runs on: http://localhost:5173
 
+Or view the deployed demo: https://cmtai-387r.vercel.app/
+
 ---
 
 ## 🔌 REST API Endpoints
@@ -206,22 +210,12 @@ Article model highlights:
 1. Fork the repo
 2. Create a branch: `git checkout -b feat/your-feature`
 3. Commit your changes
-4. Open a Pull Request
+4. Open a Pull Reques
 
-Please include tests or clear manual test instructions for non-trivial changes.
-
----
-
-## 📄 License
-
-MIT — see LICENSE file.
-
----
 
 ## 📬 Contact
 
 Project by BeyondChats demo — for questions or feature requests, open an issue or reach out to the maintainer.
 
----
-
 Thank you for checking out BeyondChats — a small but powerful demo tying together scraping, search, LLM enrichment, and a polished frontend for content comparison.
+```
