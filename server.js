@@ -5,12 +5,17 @@ import Article from "./Article.js";
 
 const app = express();
 
-// middleware
+/* ------------------- MIDDLEWARE ------------------- */
 app.use(cors());
 app.use(express.json());
 
-// connect DB
+/* ------------------- DB ------------------- */
 connectDB();
+
+/* ------------------- HEALTH CHECK ------------------- */
+app.get("/", (req, res) => {
+  res.send("BeyondChats API is running");
+});
 
 /* ------------------- CRUD APIs ------------------- */
 
@@ -24,7 +29,7 @@ app.get("/articles", async (req, res) => {
   }
 });
 
-// GET single article by ID
+// GET single article
 app.get("/articles/:id", async (req, res) => {
   try {
     const article = await Article.findById(req.params.id);
@@ -33,29 +38,34 @@ app.get("/articles/:id", async (req, res) => {
     }
     res.json(article);
   } catch (err) {
-    res.status(400).json({ error: "Invalid ID" });
+    res.status(400).json({ error: "Invalid article ID" });
   }
 });
 
 // CREATE article
 app.post("/articles", async (req, res) => {
   try {
-    const newArticle = await Article.create(req.body);
-    res.status(201).json(newArticle);
+    const article = await Article.create(req.body);
+    res.status(201).json(article);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
 
-// UPDATE article
+// UPDATE article (used by Phase-2 script)
 app.put("/articles/:id", async (req, res) => {
   try {
-    const updatedArticle = await Article.findByIdAndUpdate(
+    const article = await Article.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
     );
-    res.json(updatedArticle);
+
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+
+    res.json(article);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -64,16 +74,20 @@ app.put("/articles/:id", async (req, res) => {
 // DELETE article
 app.delete("/articles/:id", async (req, res) => {
   try {
-    await Article.findByIdAndDelete(req.params.id);
+    const article = await Article.findByIdAndDelete(req.params.id);
+
+    if (!article) {
+      return res.status(404).json({ message: "Article not found" });
+    }
+
     res.json({ message: "Article deleted successfully" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 });
 
-/* ------------------------------------------------- */
-
+/* ------------------- SERVER ------------------- */
 const PORT = 5000;
-app.listen(PORT, () =>
-  console.log(`Server running on http://localhost:${PORT}`)
-);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
